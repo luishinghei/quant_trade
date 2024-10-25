@@ -18,7 +18,8 @@
     ```
 
 4. Set up environment variables in `.env` and filling in the necessary details:
-    The `.env` file should have the following format:
+
+   The `.env` file should have the following format:
     ```plaintext
     # bybit_api
     api_key = "your_bybit_api_key"
