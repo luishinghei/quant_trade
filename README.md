@@ -1,10 +1,9 @@
-
 ## Installation
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/quanttrading-bot.git
-    cd quanttrading-bot
+    git clone https://github.com/luishinghei/quant_trade.git
+    cd quant_trade
     ```
 
 2. Create a virtual environment and activate it:
@@ -18,7 +17,21 @@
     pip install -r requirements.txt
     ```
 
-4. Set up environment variables by copying `.env.example` to `.env` and filling in the necessary details.
+4. Set up environment variables by copying `.env.example` to `.env` and filling in the necessary details:
+    ```sh
+    cp .envexample .env
+    ```
+
+    The `.env` file should have the following format:
+    ```plaintext
+    # bybit_api
+    api_key = "your_bybit_api_key"
+    api_secret = "your_bybit_api_secret"
+
+    # tg_bot
+    tg_api_key = "your_telegram_api_key"
+    tg_chat_id = "your_telegram_chat_id"
+    ```
 
 ## Configuration
 
@@ -42,5 +55,5 @@
 
 ## Data
 
-- Historical data files are stored in the `userdata/data/` directory.
-- Logs are stored in the `userdata/logs/` directory.
+- Historical data files are stored in the `user_data/data/` directory.
+- Logs are stored in the `user_data/logs/` directory.
