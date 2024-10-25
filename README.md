@@ -17,11 +17,7 @@
     pip install -r requirements.txt
     ```
 
-4. Set up environment variables by copying `.env.example` to `.env` and filling in the necessary details:
-    ```sh
-    cp .envexample .env
-    ```
-
+4. Set up environment variables in `.env` and filling in the necessary details:
     The `.env` file should have the following format:
     ```plaintext
     # bybit_api
