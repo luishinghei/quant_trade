@@ -40,21 +40,7 @@
 - **Logger**: Initializes and manages logging. Implemented in [`quanttrading.utils.log`](quanttrading/utils/log.py).
 - **Config Manager**: Loads and manages configuration files. Implemented in [`quanttrading.config_manager`](quanttrading/config_manager.py).
 
-## Strategies
-
-### Strat01
-
-A z-score momentum strategy that calculates the z-score of the closing prices and generates buy signals when the z-score exceeds a threshold.
-
-### Strat02
-
-A moving average percentage difference strategy that calculates the percentage difference between the closing price and its moving average, generating buy signals when the percentage difference exceeds a threshold.
-
 ## Data
 
-- Historical data files are stored in the `data/` directory.
-- Logs are stored in the `logs/` directory.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+- Historical data files are stored in the `userdata/data/` directory.
+- Logs are stored in the `userdata/logs/` directory.
