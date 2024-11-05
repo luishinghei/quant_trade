@@ -2,10 +2,10 @@ strategies:
   - id: 1
     name: 1m_z_score_mom
     type: momentum
-    symbol: btcusdt
+    symbol: BTCUSDT
     timeframe: 1m
     side: long
-    max_abs_pos: 0.12
+    max_pos: 0.12
     params:
       - window: 15
         threshold: -1.1
@@ -15,10 +15,10 @@ strategies:
   - id: 2
     name: 5m_ma_pct_diff_reversal
     type: reversal
-    symbol: btcusdt
+    symbol: BTCUSDT
     timeframe: 5m
     side: long_short
-    max_abs_pos: 0.34
+    max_pos: 0.34
     params:
       - window: 20
         threshold: -0.22
@@ -28,10 +28,10 @@ strategies:
   - id: 3
     name: 1m_z_score_mom
     type: trend
-    symbol: ethusdt
-    timeframe: 1m
+    symbol: BTCUSDT
+    timeframe: 3m
     side: long
-    max_abs_pos: 0.88
+    max_pos: 0.88
     params:
       - window: 20
         threshold: -2.0

@@ -1,0 +1,39 @@
+strategies:
+  - id: 1
+    name: 1m_z_score_mom
+    type: momentum
+    symbol: BTCUSDT
+    timeframe: 1m
+    side: long
+    max_pos: 0.12
+    params:
+      - window: 15
+        threshold: -1.1
+    order_type: limit
+    mdd_limit: 0.3
+
+  - id: 2
+    name: 5m_ma_pct_diff_reversal
+    type: reversal
+    symbol: BTCUSDT
+    timeframe: 5m
+    side: long_short
+    max_pos: 0.34
+    params:
+      - window: 20
+        threshold: -0.22
+    order_type: market
+    mdd_limit: 0.2
+  
+  - id: 3
+    name: 1m_z_score_mom
+    type: trend
+    symbol: BTCUSDT
+    timeframe: 3m
+    side: long
+    max_pos: 0.88
+    params:
+      - window: 20
+        threshold: -2.0
+    order_type: limit
+    mdd_limit: 0.1

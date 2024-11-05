@@ -5,7 +5,8 @@ from datetime import datetime, timezone
 
 
 def init_logger(logger_name: str) -> logging.Logger:
-    logs_folder = 'user_data/logs'
+    folder = 'user_data'
+    logs_folder = f'{folder}/logs'
     os.makedirs(logs_folder, exist_ok=True)
     
     log_file = f'{logs_folder}/{datetime.now(timezone.utc).strftime("%Y%m%d")}.log'
@@ -13,7 +14,7 @@ def init_logger(logger_name: str) -> logging.Logger:
     logger = logging.getLogger(logger_name)
     logger.setLevel(logging.DEBUG)
     
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    formatter = logging.Formatter('%(asctime)s - %(levelname)-8s - %(name)-9s - %(message)s')
     logging.Formatter.converter = time.gmtime
     
     file_handler = logging.FileHandler(log_file)

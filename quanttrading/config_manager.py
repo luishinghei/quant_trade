@@ -16,28 +16,30 @@ class StratConfig:
     symbol: str
     timeframe: str
     side: str
-    max_abs_pos: float
+    max_pos: float
     params: list[dict[str, float | int]]
     order_type: str
     mdd_limit: float
 
 
 class ConfigManager:
-    def __init__(self):
+    def __init__(self, is_demo: bool = True) -> None:
         self.config = None
+        self.is_demo = is_demo
+        self.config_path = 'config_test/strategies.yaml' if is_demo else 'config/strategies.yaml'
     
-    def load_strategy_config(self, config_path: str) -> dict:
-        if not os.path.exists(config_path):
-            raise FileNotFoundError(f'Config file {config_path} not found.')
+    def load_strategy_config(self) -> list[StratConfig]:
+        if not os.path.exists(self.config_path):
+            raise FileNotFoundError(f'Config file {self.config_path} not found.')
         
         try:
-            with open(config_path, 'r') as f:
+            with open(self.config_path, 'r') as f:
                 self.config = yaml.safe_load(f)
         
             self._validate_strategy_config()
         
             strat_no = len(self.config['strategies'])
-            logger.info(f"Loaded {strat_no} strategies.")
+            logger.info(f"Loaded {strat_no} strategy configs")
             # return self.config
             strat_configs = []
             for strategy in self.config['strategies']:
@@ -56,12 +58,12 @@ class ConfigManager:
             'symbol',
             'timeframe',
             'side',
-            'max_abs_pos',
+            'max_pos',
             'params',
             'order_type',
             'mdd_limit',
         ]
-        valid_timeframes = ['1m', '3m', '5m', '15m', '30m', '1h', '4h', '1d']
+        valid_timeframes = ['1m', '3m', '5m', '15m', '30m', '1h', '4h', '8h', '1d']
         valid_sides = ['long', 'short', 'long_short']
         valid_order_types = ['market', 'limit']
         
@@ -79,33 +81,42 @@ class ConfigManager:
             if strategy['order_type'] not in valid_order_types:
                 raise ValueError(f"Invalid order_type in strategy {strategy['id']}: {strategy['order_type']}")
             
-            if not (0 <= strategy['max_abs_pos'] <= 1):
-                raise ValueError(f"Invalid max_pos value in strategy {strategy['id']}: {strategy['max_abs_pos']}")
-            
             params = strategy.get('params', []) 
             for param in params:
                 for key, value in param.items():
                     if not isinstance(value, (int, float)):
                         raise TypeError(f"Invalid type for param '{key}' in strategy {strategy['id']}.")
     
-    def get_abs_max_pos(self) -> dict[str, float]:
-        max_pos_dict = {}
-        for strategy in self.config['strategies']:
-            symbol = strategy['symbol'].upper()
-            max_pos = strategy['max_abs_pos']
-            if symbol in max_pos_dict:
-                max_pos_dict[symbol] += max_pos
-            else:
-                max_pos_dict[symbol] = max_pos
-        return max_pos_dict
+    # def get_abs_max_pos(self) -> dict[str, float]:
+    #     max_pos_dict = {}
+    #     for strategy in self.config['strategies']:
+    #         symbol = strategy['symbol']
+    #         max_pos = strategy['max_pos']
+    #         if symbol in max_pos_dict:
+    #             max_pos_dict[symbol] += max_pos
+    #         else:
+    #             max_pos_dict[symbol] = max_pos
+    #     return max_pos_dict
     
-    def get_symbols(self) -> list[str]:
-        symbols = []
-        for strategy in self.config['strategies']:
-            symbol = strategy['symbol']
-            if symbol not in symbols:
-                symbols.append(symbol)
-        return symbols
+    # def get_strategy_by_id(self, strategy_id: int) -> dict:
+    #     for strategy in self.config['strategies']:
+    #         if strategy['id'] == strategy_id:
+    #             return strategy        
+    #     raise ValueError(f"Strategy with id {strategy_id} not found.")
+    
+    # def get_strategy_by_name(self, strategy_name: str) -> dict:
+    #     for strategy in self.config['strategies']:
+    #         if strategy['name'] == strategy_name:
+    #             return strategy
+    #     raise ValueError(f"Strategy with name {strategy_name} not found.")
+    
+    # def get_symbols(self) -> list[str]:
+    #     symbols = []
+    #     for strategy in self.config['strategies']:
+    #         symbol = strategy['symbol']
+    #         if symbol not in symbols:
+    #             symbols.append(symbol)
+    #     return symbols
     
     def create_strat_config(self, strategy: dict) -> StratConfig:
         return StratConfig(
@@ -115,7 +126,7 @@ class ConfigManager:
             symbol=strategy['symbol'],
             timeframe=strategy['timeframe'],
             side=strategy['side'],
-            max_abs_pos=strategy['max_abs_pos'],
+            max_pos=strategy['max_pos'],
             params=strategy['params'],
             order_type=strategy['order_type'],
             mdd_limit=strategy['mdd_limit']
